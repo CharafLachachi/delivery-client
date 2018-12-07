@@ -16,8 +16,8 @@ export class AboutPage implements OnInit{
   }
 
   ngOnInit(){
-    this.httpClient.get<Delivery>('https://delivery20181025113758.azurewebsites.net/api/Deliveries/5')
-    .subscribe(festchedDelivery => (this.delivery = festchedDelivery))
+    // this.httpClient.get<Delivery>('https://delivery20181025113758.azurewebsites.net/api/Deliveries/5')
+    // .subscribe(festchedDelivery => (this.delivery = festchedDelivery))
   }
 
 

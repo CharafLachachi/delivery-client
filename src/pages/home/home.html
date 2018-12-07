@@ -14,7 +14,9 @@
     Take a look at the <code>src/pages/</code> directory to add or change tabs,
     update any existing page or create new pages.
   </p>
-  <form (ngSubmit)="submitForm($event)">
+  <!-- <form (ngSubmit)="submitForm($event)"> -->
+      <form (ngSubmit)="sendData()">
+
     <ion-item>
       <ion-label>Todo</ion-label>
       <ion-input type="text" [(ngModel)]="todo.title" name="title"></ion-input>

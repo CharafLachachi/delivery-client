@@ -131,7 +131,7 @@ export class HomePage implements OnInit {
 
   sendData() {
     let delivery: Delivery = {
-      id: 1000000,
+      id: 5,
       createdAt: "1996-03-21T21:48:00",
       modifiedAt: new Date().toISOString(),
       state: 0,
@@ -140,7 +140,7 @@ export class HomePage implements OnInit {
       deliveryMan: null,
       order: null
     };
-    return this.httpClient.post("https://localhost:44317/api/Deliveries/",
+    return this.httpClient.put("https://localhost:44317/api/Deliveries/5",
       delivery,
       { observe: "response" }) // Wthout this observer we can't subscribe to the response
       .subscribe(

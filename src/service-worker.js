@@ -44,7 +44,7 @@ self.addEventListener('sync', function(event){
               'Content-Type' : 'application/json',
               'Accept' : 'application/json'
             },
-            body : delivery
+            body : JSON.stringify(delivery)
           }).catch((err) => {
             console.log(err);
           })

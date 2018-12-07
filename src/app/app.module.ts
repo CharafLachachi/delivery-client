@@ -11,7 +11,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { IonicStorageModule } from '@ionic/storage';
 import { IndexeddbserviceProvider } from '../providers/indexeddbservice/indexeddbservice';
 import { OnlineOfflineServiceProvider } from '../providers/online-offline-service/online-offline-service';
-
+import { TextMaskModule } from "angular2-text-mask";
 
 @NgModule({
   declarations: [
@@ -24,7 +24,8 @@ import { OnlineOfflineServiceProvider } from '../providers/online-offline-servic
   imports: [
     BrowserModule,
     HttpClientModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    TextMaskModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
