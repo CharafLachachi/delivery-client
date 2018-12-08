@@ -5,19 +5,20 @@ import { MyApp } from './app.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AboutPage } from '../pages/about/about';
-import { ContactPage } from '../pages/contact/contact';
+import { ProfilePage } from '../pages/profile/profile';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { IonicStorageModule } from '@ionic/storage';
 import { IndexeddbserviceProvider } from '../providers/indexeddbservice/indexeddbservice';
 import { OnlineOfflineServiceProvider } from '../providers/online-offline-service/online-offline-service';
 import { TextMaskModule } from "angular2-text-mask";
+import { DeliveryManProvider } from '../providers/delivery-man/delivery-man';
 
 @NgModule({
   declarations: [
     MyApp,
     AboutPage,
-    ContactPage,
+    ProfilePage,
     HomePage,
     TabsPage
   ],
@@ -31,7 +32,7 @@ import { TextMaskModule } from "angular2-text-mask";
   entryComponents: [
     MyApp,
     AboutPage,
-    ContactPage,
+    ProfilePage,
     HomePage,
     TabsPage
   ],
@@ -39,7 +40,8 @@ import { TextMaskModule } from "angular2-text-mask";
     {provide: ErrorHandler, 
       useClass: IonicErrorHandler},
     IndexeddbserviceProvider,
-    OnlineOfflineServiceProvider
+    OnlineOfflineServiceProvider,
+    DeliveryManProvider
   ]
 })
 export class AppModule {}

@@ -6,12 +6,13 @@ import { Country } from '../../models/Country';
 import { PasswordValidator } from '../../validators/pass.validators';
 import emailMask from 'text-mask-addons/dist/emailMask';
 import { HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { DeliveryManProvider } from '../../providers/delivery-man/delivery-man';
 
 @Component({
   selector: 'page-contact',
-  templateUrl: 'contact.html'
+  templateUrl: 'profile.html'
 })
-export class ContactPage implements OnInit{
+export class ProfilePage implements OnInit{
   private form : FormGroup;
   private country_phone_group: FormGroup;
   private countries: Array<Country>;
@@ -21,7 +22,8 @@ export class ContactPage implements OnInit{
 
   constructor(public navCtrl: NavController,
     private formBuilder : FormBuilder,
-    private httpClient : HttpClient) {
+    private httpClient : HttpClient,
+    private deliveryManService : DeliveryManProvider) {
 
       // Countries Displayed in select Input, YOu can add your owns
       this.countries = [
@@ -109,29 +111,36 @@ export class ContactPage implements OnInit{
   ngOnInit(){
     // Intialize controls with the data of current logged Delivery Man
     // Only for Test, After data will be fetched from server, or localstorage
-    this.matching_passwords_group.setValue({
-      password : 'Realmadrid654',
-      confirm_password : 'Realmadrid654',
-    })
-    this.country_phone_group.setValue({
-      country :  new Country('FR', 'France'),
-      phone : '0650997433'
-    })
-    this.form.setValue({
-      firstname : 'Charaf',
-      lastname : 'Lachachi',
-      email : 'lac.charaf@gmail.com',
-      matching_passwords : this.matching_passwords_group.value,
-      country_phone : this.country_phone_group.value,
-      adresse : '85 bd Brune' 
+    this.deliveryManService.getDeliveryMan(5).subscribe(dm => {
+      this.deliveryMan = dm;
+      // Tell Service to Store the DeliveryMan in IndexedDb, 
+      // to use it in connection down case.
+      this.deliveryManService.storeDeliveryManInDb(dm);
+     
+      // TODO retrive password from server
+      this.matching_passwords_group.setValue({
+          password : 'Password123',
+          confirm_password : 'Password123',
+        })
+        // TODO add country ISO in the API
+        this.country_phone_group.setValue({
+          country :  new Country('FR', 'France'),
+          phone : dm.phoneNumber
+        })
+
+        this.form.setValue({
+          firstname : dm.firstname,
+          lastname : dm.lastname,
+          email : dm.email,
+          matching_passwords : this.matching_passwords_group.value,
+          country_phone : this.country_phone_group.value,
+          adresse : '85 bd Brune' 
+        })
     })
   }
    editForm(){
-     // TODO send put request to the server
-     // Handle Offline case 
-    //console.log(this.form.value);  
-    // Create DeliveryMan From new Edited Data
-    let url = "https://localhost:44317/api/DeliveryMen/5"
+    // Is Working with password Null, If you need to add password you have to send it as Byte and not String
+    // because if you send String , asp core api will throw exception and request fail. 
     this.deliveryMan = {
       id: 5,
       firstname: this.form.value.firstname,
@@ -145,15 +154,10 @@ export class ContactPage implements OnInit{
       delivery: []
       };
       console.log(this.deliveryMan);
-
-      return this.httpClient.put(url,
-          this.deliveryMan,
-          { observe: "response" }) // Wthout this observer we can't subscribe to the response
-          .subscribe(
-            (res: HttpResponse<any>) => { console.log(res) },
-            // TODO handle the errors to dipslay somthing to user
-            (err: HttpErrorResponse) => { console.log('Error ' + err.message) }
-          )
+     
+      // Call the service to send the put request, 
+      // this method handle Online/Offline sync
+      this.deliveryManService.putDeliveryMan(this.deliveryMan);
 
   }
 
