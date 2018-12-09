@@ -46,21 +46,6 @@ self.addEventListener('sync', function (event) {
   // Here you can add Switch case for tags
 });
 
-
-// });
-// self.addEventListener('fetch' , function(event){
-//  // var url = 'https://delivery20181025113758.azurewebsites.net/api/Deliveries/5';
-//   // if(event.request.url.indexOf(url) > -1){
-//   //   console.log('[Service Worker] Fetching somthing from API', event);
-//   // }else{
-//   // console.log('[Service Worker] Fetching somthing', event);
-//   // }
-
-//   console.log("HTTP call intercepted - " + event.request.url);
-//   return event.respondWith(fetch(event.request.url));
-//  // event.respondWith(null);
-// });
-
 // pre-cache our key assets
 self.toolbox.precache(
   [
@@ -142,7 +127,8 @@ function postSyncDeliveryMan() {
         }).then((res) => {
           // Clear Table because data was sent to the server successfully
           console.log("put success", res);
-          
+          // Bad Performance issue, because we'll use a new connection and transaction, but
+          // i couldn't handle clear() in the same transcation, i had some transaction already closed errors
           clearSyncDeliveryManTable();
 
           // TODO edit DeliveryMan in myDb, because it still contains old data
