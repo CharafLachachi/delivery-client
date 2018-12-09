@@ -1,3 +1,4 @@
+import { ENV } from './../../environments/environment.dev';
 import { HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 import Dexie from "dexie";
@@ -16,13 +17,15 @@ import { Observable } from 'rxjs';
 export class DeliveryManProvider implements OnInit {
 
  // private db: Promise<Dexie>;
+ private apiURL : string;
   constructor(
     public httpClient: HttpClient,
     public indexedDbService: IndexeddbserviceProvider,
     private toastCtrl: ToastController,
-
     ) {
     console.log('Hello DeliveryManProvider Provider');
+    // Get API url from environement variable
+    this.apiURL = ENV.api;
   }
   public ngOnInit() {
     // Inialize the DataBase
@@ -36,7 +39,7 @@ export class DeliveryManProvider implements OnInit {
   public putDeliveryMan(deliveryMan: any) {
     const connectionState: boolean = !!window.navigator.onLine
     const id = deliveryMan['id'];
-    const url = "https://localhost:44317/api/DeliveryMen/" + id;
+    const url = this.apiURL+"/DeliveryMen/" + id;
     // The connection is up, so we have to send HTTP request directely to the server
     if (connectionState) {
       return this.httpClient
@@ -92,9 +95,9 @@ export class DeliveryManProvider implements OnInit {
 
     }
   }
-  // Get delivery Man where Profile page is loaded
+  // Get delivery Man when Profile page is loaded
   getDeliveryMan(id : any) : Observable<DeliveryMan>{
-    const url = "https://localhost:44317/api/DeliveryMen/" + id;
+    const url =  this.apiURL+"/DeliveryMen/" + id;
     if(!!window.navigator.onLine){
       return this.httpClient.get<DeliveryMan>(url);
 

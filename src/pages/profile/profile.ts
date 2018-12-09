@@ -1,3 +1,4 @@
+import { ENV } from './../../environments/environment';
 import { Component, OnInit } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
@@ -19,12 +20,14 @@ export class ProfilePage implements OnInit{
   private matching_passwords_group: FormGroup;
   private emailMask = emailMask;
   private deliveryMan = {};
+  private apiUrl : string ;
 
   constructor(public navCtrl: NavController,
     private formBuilder : FormBuilder,
     private httpClient : HttpClient,
     private deliveryManService : DeliveryManProvider) {
-
+      // Get the API url from environement variable
+      this.apiUrl = ENV.api;
       // Countries Displayed in select Input, YOu can add your owns
       this.countries = [
         new Country('UY', 'Uruguay'),

@@ -7,7 +7,7 @@ import { ToastController } from 'ionic-angular';
 import { OnlineOfflineServiceProvider } from '../../providers/online-offline-service/online-offline-service';
 import { Observable } from 'rxjs';
 import 'rxjs/add/observable/throw';
-
+import { ENV } from '@app/env';
 
 
 
@@ -24,12 +24,14 @@ export class HomePage implements OnInit {
       'Content-Type': 'application/json',
     })
   };
-
+  private apiURL : string;
   constructor(public navCtrl: NavController,
     public httpClient: HttpClient,
     public indexedDbService: IndexeddbserviceProvider,
     private toastCtrl: ToastController,
     private readonly onlineOfflineService: OnlineOfflineServiceProvider) {
+      console.log(ENV.api);
+      this.apiURL = ENV.api;
   }
 
   // Sbscribe to internet state event
@@ -118,7 +120,7 @@ export class HomePage implements OnInit {
         deliveryMan: null,
         order: null
       };
-      this.httpClient.post("https://localhost:44317/api/Deliveries/",
+      this.httpClient.post( this.apiURL+"/Deliveries/",
         delivery,
         { observe: "response" }) // Wthout this observer we can't subscribe to the response
         .subscribe(
@@ -140,7 +142,7 @@ export class HomePage implements OnInit {
       deliveryMan: null,
       order: null
     };
-    return this.httpClient.put("https://localhost:44317/api/Deliveries/5",
+    return this.httpClient.put( this.apiURL+"/Deliveries/5",
       delivery,
       { observe: "response" }) // Wthout this observer we can't subscribe to the response
       .subscribe(
@@ -152,10 +154,12 @@ export class HomePage implements OnInit {
 
   writeInDb() {
     for (let index = 1; index < 10; index++) {
-      this.httpClient.get<Delivery>('https://localhost:44317/api/Deliveries/' + index)
+      this.httpClient.get<Delivery>( this.apiURL+"/Deliveries/" + index)
         .toPromise()
         .then((d) => {
           this.indexedDbService.writeData("delivery", d);
+        }).catch(err => {
+          console.log("can't fetch deliveries from server",err);
         });
     }
   }

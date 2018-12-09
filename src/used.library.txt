@@ -1,1 +1,8 @@
+----------------------------- Library-----------------------------------------------
+
 npm i text-mask-addons --save https://github.com/text-mask/text-mask/tree/master/addons
+
+------------------------------Tutos------------------------------------------------
+09/12/2018 - Contrairement a Angular ionic ne contient pas un mecanisme de variable d'environnement, 
+donc je l'ai implanté manuellement en se basant sur ce lien : https://github.com/gshigeto/ionic-environment-variables.
+L'utilisation de la variable d'environement facilite dans notre cas le changement de l'url de l'api

@@ -3,7 +3,7 @@ var fs = require('fs');
 var path = require('path');
 var useDefaultConfig = require('@ionic/app-scripts/config/webpack.config.js');
 
-var env = process.env.IONIC_ENV;
+var env = process.env.MY_ENV;
 
 useDefaultConfig.prod.resolve.alias = {
   "@app/env": path.resolve(environmentPath('prod'))
