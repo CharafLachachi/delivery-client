@@ -3,7 +3,7 @@
     <ion-title>Home</ion-title>
   </ion-navbar>
 </ion-header>
-
+<!--
 <ion-content padding>
   <h2>Welcome to Ionic!</h2>
   <p>
@@ -15,7 +15,7 @@
     update any existing page or create new pages.
   </p>
   <form (ngSubmit)="submitForm($event)">
-      <!-- <form (ngSubmit)="sendData()"> -->
+       <form (ngSubmit)="sendData()"> 
 
     <ion-item>
       <ion-label>Todo</ion-label>
@@ -43,4 +43,15 @@
         </ion-card-content>
       </ion-card>
     </div>
+</ion-content>-->
+<ion-content padding>
+  <ion-list>
+      <ion-item>
+          <ion-input placeholder="Username" [(ngModel)]="username"></ion-input>
+      </ion-item>
+      <ion-item>
+          <ion-input [(ngModel)]="password" placeholder="Password" type="password"></ion-input>
+      </ion-item>
+  </ion-list>
+  <button ion-button full (click)="login()"> Login </button>
 </ion-content>
