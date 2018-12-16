@@ -14,13 +14,15 @@ import { OnlineOfflineServiceProvider } from '../providers/online-offline-servic
 import { TextMaskModule } from "angular2-text-mask";
 import { DeliveryManProvider } from '../providers/delivery-man/delivery-man';
 
+import { LoginPage } from '../pages/login/login';
 @NgModule({
   declarations: [
     MyApp,
     AboutPage,
     ProfilePage,
     HomePage,
-    TabsPage
+    TabsPage,
+    LoginPage
   ],
   imports: [
     BrowserModule,
@@ -34,7 +36,8 @@ import { DeliveryManProvider } from '../providers/delivery-man/delivery-man';
     AboutPage,
     ProfilePage,
     HomePage,
-    TabsPage
+    TabsPage,
+    LoginPage
   ],
   providers: [
     {provide: ErrorHandler, 
