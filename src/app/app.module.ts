@@ -13,8 +13,9 @@ import { IndexeddbserviceProvider } from '../providers/indexeddbservice/indexedd
 import { OnlineOfflineServiceProvider } from '../providers/online-offline-service/online-offline-service';
 import { TextMaskModule } from "angular2-text-mask";
 import { DeliveryManProvider } from '../providers/delivery-man/delivery-man';
-
+import { AuthenticationService } from '../providers/authentication.service';
 import { LoginPage } from '../pages/login/login';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -44,7 +45,8 @@ import { LoginPage } from '../pages/login/login';
       useClass: IonicErrorHandler},
     IndexeddbserviceProvider,
     OnlineOfflineServiceProvider,
-    DeliveryManProvider
+    DeliveryManProvider,
+    AuthenticationService
   ]
 })
 export class AppModule {}

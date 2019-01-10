@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { first } from 'rxjs/operators';
+import { AuthenticationService } from '../../providers/authentication.service';
 
 /**
  * Generated class for the LoginPage page.
@@ -16,7 +18,9 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 export class LoginPage {
   username:string;
   password:string;
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              private authenticationService: AuthenticationService) {
   }
 
   ionViewDidLoad() {
@@ -39,5 +43,19 @@ export class LoginPage {
     .then( function(response){
       console.log(response);
     });*/
+
+    this.authenticationService.login(this.username, this.password)
+            .pipe(first())
+            .subscribe(
+              
+                data => {
+                   // this.router.navigate([this.returnUrl]);
+                   console.log("success");
+                },
+                error => {
+                  console.log("error");
+                  //this.alertService.error(error);
+                   // this.loading = false;
+                });
   }
 }
