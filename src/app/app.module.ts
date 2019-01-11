@@ -15,7 +15,11 @@ import { TextMaskModule } from "angular2-text-mask";
 import { DeliveryManProvider } from '../providers/delivery-man/delivery-man';
 import { AuthenticationService } from '../providers/authentication.service';
 import { LoginPage } from '../pages/login/login';
+import { SignaturePage } from '../pages/signature/signature';
+import {DeliveriesPage} from '../pages/deliveries/deliveries';
 
+
+import { SignaturePadModule } from 'angular2-signaturepad';
 @NgModule({
   declarations: [
     MyApp,
@@ -23,13 +27,16 @@ import { LoginPage } from '../pages/login/login';
     ProfilePage,
     HomePage,
     TabsPage,
-    LoginPage
+    LoginPage,
+    SignaturePage,
+    DeliveriesPage
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     IonicModule.forRoot(MyApp),
     TextMaskModule,
+    SignaturePadModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -38,7 +45,9 @@ import { LoginPage } from '../pages/login/login';
     ProfilePage,
     HomePage,
     TabsPage,
-    LoginPage
+    LoginPage,
+    SignaturePage,
+    DeliveriesPage
   ],
   providers: [
     {provide: ErrorHandler, 
