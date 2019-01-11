@@ -31,7 +31,6 @@ export class LoginPage {
             .subscribe(
               
                 data => {
-                   // this.router.navigate([this.returnUrl]);
                    console.log(data);
                    console.log("success");
                 },
