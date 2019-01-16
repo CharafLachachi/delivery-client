@@ -17,6 +17,7 @@ import { DeliveriesPage } from '../deliveries/deliveries';
 export class SignaturePage {
 
   @ViewChild(SignaturePad) public signaturePad : SignaturePad;
+  
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
