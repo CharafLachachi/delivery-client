@@ -114,7 +114,9 @@ export class IndexeddbserviceProvider  {
 
   //********* DataBase Edition ***********/
 public editData(table, data) {
+  
   switch (table){
+    
     case 'deliveryman' : {
       this.db.deliveryMan
       .update(data['id'], data)
@@ -130,9 +132,30 @@ public editData(table, data) {
         console.log('Error' + (e.stack || e));
       });
     }
+
+    case 'delivery' : {
+      this.db.delivery
+      .update(data['id'], data)
+      .then(async (updated) => 
+      {
+       if(updated)
+       {
+        const allItems: Delivery[] = await this.db.delivery.toArray();
+        console.log('Edited Delivery in DB, DB is now ', allItems);
+       }
+       else 
+       {
+        console.log ("Nothing was updated - there were no Delivery with primary key:" + data['id']);
+       }
+
+      })
+      .catch(e => 
+      {
+        console.log('Error' + (e.stack || e));
+      });
+    }
   }
 }
-
 
   async readAllData() {
     const data = await this.db.delivery.where("state").equals(32).toArray();
@@ -141,6 +164,59 @@ public editData(table, data) {
   }
  
 
+
+  public isSynchronized(table, data) : boolean {
+
+    switch (table) {
+      case 'delivery': {
+        
+         // check if the delevery id is present in the db
+
+         if ( this.syncDb.syncDelivery.where({ id: data.id}).count() == 0 ) 
+            return true;
+           
+          return false;
+       /*
+        const allItems: Delivery[] =  this.syncDb.syncDelivery.toArray();
+        
+        for( let del of allItems ){
+          if(del.id === data.id)
+            return false; 
+        }
+        return true;
+      */ 
+      }
+
+      case 'deliveryman': {
+        this.syncDb.table('syncDeliveryMan')
+         // TODO: complete if needed
+      }
+    }
+
+    return false;
+  }
+
+
+  removeFromCache( delivery : any )
+  {
+    this.db.delivery.delete(delivery.id);  
+  }
+
+ fetchAllDeliveries() : Delivery[] 
+ {
+    const deliveries : Delivery[] = this.db.delivery.toArray();
+    return deliveries 
+ }
+
+ updateDeliveries(deliveries : Delivery[]) 
+ {
+    for(let delivery of deliveries)
+    {
+      if ( delivery.state == 0 && this.db.delivery.where({ id: delivery.id}).count() == 0 ) 
+         this.db.delivery.add(delivery) 
+    }
+
+ }
 
 }
 

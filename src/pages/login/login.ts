@@ -46,6 +46,8 @@ export class LoginPage implements OnInit {
       email: "lac.charaf@gmail.fr",
       password: "smail"
     })
+    var displayDate = new Date();
+    console.log("date : "+displayDate);
   }
 
   validation_messages = {

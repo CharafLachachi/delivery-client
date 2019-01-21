@@ -17,9 +17,10 @@ import { AuthenticationService } from '../providers/authentication.service';
 import { LoginPage } from '../pages/login/login';
 import { SignaturePage } from '../pages/signature/signature';
 import {DeliveriesPage} from '../pages/deliveries/deliveries';
-
-
 import { SignaturePadModule } from 'angular2-signaturepad';
+import { DeliveriesServiceProvider } from '../providers/deliveries-service/deliveries-service';
+import { DeliveryDetailsPage } from '../pages/delivery-details/delivery-details';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -29,7 +30,8 @@ import { SignaturePadModule } from 'angular2-signaturepad';
     TabsPage,
     LoginPage,
     SignaturePage,
-    DeliveriesPage
+    DeliveriesPage,
+    DeliveryDetailsPage
   ],
   imports: [
     BrowserModule,
@@ -47,7 +49,8 @@ import { SignaturePadModule } from 'angular2-signaturepad';
     TabsPage,
     LoginPage,
     SignaturePage,
-    DeliveriesPage
+    DeliveriesPage,
+    DeliveryDetailsPage
   ],
   providers: [
     {provide: ErrorHandler, 
@@ -55,7 +58,8 @@ import { SignaturePadModule } from 'angular2-signaturepad';
     IndexeddbserviceProvider,
     OnlineOfflineServiceProvider,
     DeliveryManProvider,
-    AuthenticationService
+    AuthenticationService,
+    DeliveriesServiceProvider
   ]
 })
 export class AppModule {}

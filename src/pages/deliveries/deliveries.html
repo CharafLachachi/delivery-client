@@ -7,13 +7,22 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>deliveries</ion-title>
+    <ion-title> Deliveries </ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-  <p>Hello !</p>
-  <button ion-button full (click)="openSignatureModel()">Open signature</button>
+  
+  <button ion-button full (click)="onRefresh()"> Refresh Deliveries </button>
+
+  <ion-list>
+    <ion-item *ngFor="let delivery of deliveries" (click)=showDetails(delivery)>
+     Delivery ID : {{ delivery.id }} 
+     Delivery State : {{ delivery.state }}
+    </ion-item>
+  </ion-list>
+
+  
 </ion-content>

@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
-import { SignaturePage } from '../signature/signature';
+import { Component, OnInit } from '@angular/core';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Delivery } from 'models/delivery';
+import { DeliveriesServiceProvider } from '../../providers/deliveries-service/deliveries-service';
+import { DeliveryDetailsPage } from '../delivery-details/delivery-details';
 
 /**
  * Generated class for the DeliveriesPage page.
@@ -14,20 +16,29 @@ import { SignaturePage } from '../signature/signature';
   selector: 'page-deliveries',
   templateUrl: 'deliveries.html',
 })
-export class DeliveriesPage {
+export class DeliveriesPage implements OnInit{
+  
+  deliveries : Delivery[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, 
-    public modalController : ModalController) {
-      this.signatureImage = navParams.get('signatureImage');
-      console.log("sig from deleveries : "+this.signatureImage);
-  }
-  public signatureImage : string;
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad DeliveriesPage');
+  ngOnInit(): void {
+  
+    this.deliveries = this.deliveriesService.getAllDeliveries();
   }
 
-  openSignatureModel(){
-    let model = this.modalController.create(SignaturePage);
-    model.present();
+
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+              public deliveriesService : DeliveriesServiceProvider) {
+
+  }
+
+  showDetails(delivery : Delivery) 
+  {
+    this.navCtrl.push( DeliveryDetailsPage, { del: delivery } );
+  }
+
+  onRefresh()
+  {
+    this.deliveries = this.deliveriesService.getAllDeliveries();
   }
 }
+

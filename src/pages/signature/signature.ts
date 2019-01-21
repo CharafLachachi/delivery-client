@@ -1,7 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {SignaturePad} from 'angular2-signaturepad/signature-pad';
-import { DeliveriesPage } from '../deliveries/deliveries';
+import { DeliveriesServiceProvider } from '../../providers/deliveries-service/deliveries-service';
+
 /**
  * Generated class for the SignaturePage page.
  *
@@ -18,7 +19,7 @@ export class SignaturePage {
 
   @ViewChild(SignaturePad) public signaturePad : SignaturePad;
   
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public deliveriesService : DeliveriesServiceProvider) {
   }
 
   ionViewDidLoad() {
@@ -34,7 +35,9 @@ export class SignaturePage {
   drawComplete(){
     this.signatureImage = this.signaturePad.toDataURL();
     console.log("signature : "+this.signatureImage);
-    this.navCtrl.push(DeliveriesPage, {signatureImage : this.signatureImage });
+    //this.navCtrl.push(DeliveryDetailsPage, {signatureImage : this.signatureImage });
+    this.deliveriesService.setSignatureURL(this.signatureImage);
+    this.navCtrl.pop();
   }
 
   drawClear(){
@@ -42,7 +45,9 @@ export class SignaturePage {
   }
 
   drawCancel(){
-    this.navCtrl.push(DeliveriesPage, {signatureImage : '' });
+    // this.navCtrl.push(DeliveryDetailsPage, {signatureImage : '' });
+    this.deliveriesService.setSignatureURL('');
+    this.navCtrl.pop();
   }
 
   canvasRecize(){
