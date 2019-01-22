@@ -92,7 +92,7 @@ export class DeliveryManProvider implements OnInit {
       * in counter of Service worker that handle synchronistion even if the application is closed.
      */
       } else {
-
+        console.log("No Sync Manager");
       }
 
     }
