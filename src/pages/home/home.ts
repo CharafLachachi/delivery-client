@@ -8,6 +8,7 @@ import { ToastController } from 'ionic-angular';
 import { OnlineOfflineServiceProvider } from '../../providers/online-offline-service/online-offline-service';
 import { Observable } from 'rxjs';
 import 'rxjs/add/observable/throw';
+import { DeliveriesPage } from '../deliveries/deliveries';
 
 
 
@@ -176,7 +177,10 @@ export class HomePage implements OnInit {
   }
   
 
-
+  navigate()
+  {
+    this.navCtrl.push(DeliveriesPage);
+  }
 
 }
 
