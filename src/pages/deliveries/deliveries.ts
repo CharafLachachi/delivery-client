@@ -1,3 +1,4 @@
+import { IndexeddbserviceProvider } from './../../providers/indexeddbservice/indexeddbservice';
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Delivery } from 'models/delivery';
@@ -19,15 +20,28 @@ import { DeliveryDetailsPage } from '../delivery-details/delivery-details';
 export class DeliveriesPage implements OnInit{
   
   deliveries : Delivery[];
+  connectionState: boolean = !!window.navigator.onLine
 
-  ngOnInit(): void {
+  ngOnInit() {
   
-    this.deliveries = this.deliveriesService.getAllDeliveries();
+   if(this.connectionState){
+    this.deliveriesService.getAllDeliveries()
+    .subscribe(
+      result => { 
+        this.deliveries = result
+        this.indexedDbService.updateDeliveries(result);
+      });
+   } else{
+    this.deliveries = this.indexedDbService.fetchAllDeliveries()
+   }
+    
+    
   }
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-              public deliveriesService : DeliveriesServiceProvider) {
+              public deliveriesService : DeliveriesServiceProvider,
+              public indexedDbService : IndexeddbserviceProvider) {
 
   }
 
@@ -38,7 +52,7 @@ export class DeliveriesPage implements OnInit{
 
   onRefresh()
   {
-    this.deliveries = this.deliveriesService.getAllDeliveries();
+    this.deliveriesService.getAllDeliveries().subscribe(result => this.deliveries = result);
   }
 }
 

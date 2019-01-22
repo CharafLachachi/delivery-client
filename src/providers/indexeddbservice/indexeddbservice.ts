@@ -212,11 +212,11 @@ public editData(table, data) {
  {
     for(let delivery of deliveries)
     {
-      if ( delivery.state == 0 && this.db.delivery.where({ id: delivery.id}).count() == 0 ) 
-         this.db.delivery.add(delivery) 
+     // if ( delivery.state == 0 && this.db.delivery.where({ id: delivery.id}).count() == 0 ) 
+
+         this.writeData('delivery',delivery)
     }
 
  }
-
 }
 

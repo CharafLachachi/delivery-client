@@ -1,8 +1,9 @@
+import { Observable } from 'rxjs';
+import { ENV } from './../../environments/environment.dev';
 import { Injectable, OnInit } from "@angular/core";
 import { HttpClient, HttpResponse, HttpErrorResponse } from "@angular/common/http";
 import { IndexeddbserviceProvider } from "../indexeddbservice/indexeddbservice";
 import { ToastController } from "ionic-angular";
-import { ENV } from "@app/env";
 import { Delivery } from "models/delivery";
 
 
@@ -41,11 +42,11 @@ export class DeliveriesServiceProvider implements OnInit {
    * @param delivery JSON of delivery to validate
    */
 
-  public validateDelivery( delivery : any ) {
+  public validateDelivery( delivery : Delivery ) {
 
     const connectionState: boolean = !!window.navigator.onLine
-    const id = delivery['id'];
-    const url = this.apiURL+"/Deliveries/";
+    const id = delivery.id;
+    const url = this.apiURL+"/Deliveries/"+id;
 
     // The connection is up, so we have to sset validation dateend an HTTP request directely to the server
 
@@ -53,10 +54,11 @@ export class DeliveriesServiceProvider implements OnInit {
     {
            delivery.state = 1; 
          //TODO set validation date 
-           delivery.modifiedAt = new Date(); 
+           let modifiedAtCapture = delivery.modifiedAt 
+           delivery.modifiedAt = new Date().toISOString(); 
          
       return this.httpClient
-        .put( url, JSON.stringify(delivery), { observe: "response" })
+        .put( url, delivery, { observe: "response" })
         .subscribe(
           (res: HttpResponse<any>) => { 
             console.log(res) 
@@ -67,7 +69,7 @@ export class DeliveriesServiceProvider implements OnInit {
           { 
             // rollback
              delivery.state = 0;  
-             delivery.modifiedAt = ' ';  
+             delivery.modifiedAt = modifiedAtCapture;  
              console.log('Error ' + err.message) 
           }
         )
@@ -82,7 +84,7 @@ export class DeliveriesServiceProvider implements OnInit {
         console.log("service worker and syncManager found");
         delivery.state = 1;
         //TODO set validation date 
-        delivery.modifiedAt = new Date(); 
+        delivery.modifiedAt = new Date().toISOString(); 
 
         navigator.serviceWorker.ready
           .then((sw) => 
@@ -228,7 +230,7 @@ export class DeliveriesServiceProvider implements OnInit {
     this.indexedDbService.removeFromCache( delivery );
   }
 
-  getAllDeliveries() : Delivery[]  
+  getAllDeliveries() : Observable<Delivery[]>
   {
     const connectionState: boolean = !!window.navigator.onLine
     const url = this.apiURL+"/Deliveries";
@@ -240,19 +242,21 @@ export class DeliveriesServiceProvider implements OnInit {
 
     if (connectionState) 
     {
-       this.httpClient
+      return this.httpClient
         .get<Delivery[]>( url )
-        .subscribe(
-          res => 
-          { 
-              this.indexedDbService.updateDeliveries(res);
-              deliveries = this.indexedDbService.fetchAllDeliveries() ; 
-          },
-          (err: HttpErrorResponse) => 
-          { 
-             console.log('Error ' + err.message) 
-          }
-        )
+        // .subscribe(
+        //   res => 
+        //   { 
+        //       console.log("Fetched Data",res);
+              
+        //       this.indexedDbService.updateDeliveries(res);
+        //       deliveries = this.indexedDbService.fetchAllDeliveries() ; 
+        //   },
+        //   (err: HttpErrorResponse) => 
+        //   { 
+        //      console.log('Error ' + err.message) 
+        //   }
+        // )
       
     } else {
       
@@ -261,7 +265,7 @@ export class DeliveriesServiceProvider implements OnInit {
     
     }
     
-    return deliveries; 
+   // return deliveries; 
     }
 
     getSignatureURL() : string 

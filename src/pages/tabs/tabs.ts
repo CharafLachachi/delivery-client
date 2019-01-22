@@ -1,3 +1,4 @@
+import { DeliveriesPage } from './../deliveries/deliveries';
 import { Component } from '@angular/core';
 
 import { AboutPage } from '../about/about';
@@ -11,7 +12,7 @@ import { SignaturePage } from '../signature/signature';
 })
 export class TabsPage {
 
-  tab1Root = HomePage;
+  tab1Root = DeliveriesPage;
   tab2Root = AboutPage;
   tab3Root = ProfilePage;
 
