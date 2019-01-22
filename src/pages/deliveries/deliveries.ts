@@ -54,5 +54,32 @@ export class DeliveriesPage implements OnInit{
   {
     this.deliveriesService.getAllDeliveries().subscribe(result => this.deliveries = result);
   }
+
+  getState(state : number) : string {
+    switch (state) {
+      case 0 : {
+        return "En Attente"
+      }
+      case 1 : {
+        return "Validée"
+      }
+      case 2 : {
+        return "Annulée"
+      }
+    }
+  }
+  getColor(state : number) : string {
+    switch (state) {
+      case 0 : {
+        return "light"
+      }
+      case 1 : {
+        return "secondary"
+      }
+      case 2 : {
+        return "danger"
+      }
+    }
+  }
 }
 

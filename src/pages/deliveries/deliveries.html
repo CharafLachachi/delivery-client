@@ -21,6 +21,7 @@
     <ion-item *ngFor="let delivery of deliveries" (click)=showDetails(delivery)>
      Delivery ID : {{ delivery.id }} 
      Delivery State : {{ delivery.state }}
+     <ion-badge color={{getColor(delivery.state)}}>{{getState(delivery.state)}}</ion-badge>
     </ion-item>
   </ion-list>
 
