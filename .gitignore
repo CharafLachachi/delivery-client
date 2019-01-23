@@ -13,8 +13,6 @@ log.txt
 npm-debug.log*
 
 # Envrionment Variables
-**/environment.*
-!**/environment.model.ts
 
 .idea/
 .ionic/
@@ -31,7 +29,6 @@ platforms/
 plugins/
 plugins/android.json
 plugins/ios.json
-www/
 $RECYCLE.BIN/
 
 .DS_Store
