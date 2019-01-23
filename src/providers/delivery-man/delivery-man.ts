@@ -1,3 +1,4 @@
+import { map, tap } from 'rxjs/operators';
 import { ENV } from './../../environments/environment.dev';
 import { HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
@@ -6,6 +7,7 @@ import { IndexeddbserviceProvider } from '../indexeddbservice/indexeddbservice';
 import { ToastController } from 'ionic-angular';
 import { DeliveryMan } from '../../models/delivery.man';
 import { Observable } from 'rxjs';
+import { Adresse } from 'models/Adresse';
 
 /*
   Generated class for the DeliveryManProvider provider.
@@ -16,20 +18,20 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class DeliveryManProvider implements OnInit {
 
- // private db: Promise<Dexie>;
- private apiURL : string;
+  // private db: Promise<Dexie>;
+  private apiURL: string;
   constructor(
     public httpClient: HttpClient,
     public indexedDbService: IndexeddbserviceProvider,
     private toastCtrl: ToastController,
-    ) {
+  ) {
     console.log('Hello DeliveryManProvider Provider');
     // Get API url from environement variable
     this.apiURL = ENV.api;
   }
   public ngOnInit() {
     // Inialize the DataBase
-   // this.db = this.initializeDataBase();
+    // this.db = this.initializeDataBase();
   }
 
   /**
@@ -39,7 +41,7 @@ export class DeliveryManProvider implements OnInit {
   public putDeliveryMan(deliveryMan: any) {
     const connectionState: boolean = !!window.navigator.onLine
     const id = deliveryMan['id'];
-    const url = this.apiURL+"/DeliveryMen/" + id;
+    const url = this.apiURL + "/DeliveryMen/" + id;
     // The connection is up, so we have to send HTTP request directely to the server
     if (connectionState) {
       return this.httpClient
@@ -48,11 +50,11 @@ export class DeliveryManProvider implements OnInit {
           deliveryMan,
           { observe: "response" }) // Without this observer, we can't subscribe to the response
         .subscribe(
-          (res: HttpResponse<any>) => { 
-            console.log(res) 
-           // if success, edit data in indexed db with modified one, (Because the deliveryMan where edited 
-           // successfully )
-           this.indexedDbService.editData('deliveryman',deliveryMan);
+          (res: HttpResponse<any>) => {
+            console.log(res)
+            // if success, edit data in indexed db with modified one, (Because the deliveryMan where edited 
+            // successfully )
+            this.indexedDbService.editData('deliveryman', deliveryMan);
           },
           // TODO handle the errors to dipslay somthing to user depending on res.status code
           (err: HttpErrorResponse) => { console.log('Error ' + err.message) }
@@ -78,46 +80,65 @@ export class DeliveryManProvider implements OnInit {
                 });
                 toast.present();
               }).catch((e) => {
-                console.log("Sync err "+e);
+                console.log("Sync err " + e);
               });
           }).catch((err) => {
-            console.log(err);      
+            console.log(err);
           })
-           /**  
-         * [Offline] , ServiceWorker or SyncManger aren't available, so we have to handle 
-         * background sync manually by adding data to SyncDb
-         * [Important] this background synchronisation work only if application process is available, 
-         * in counter of Service worker that handle synchronistion even if the application is closed.
-        */
-        }else {
-
-        }
+        /**  
+      * [Offline] , ServiceWorker or SyncManger aren't available, so we have to handle 
+      * background sync manually by adding data to SyncDb
+      * [Important] this background synchronisation work only if application process is available, 
+      * in counter of Service worker that handle synchronistion even if the application is closed.
+     */
+      } else {
+        console.log("No Sync Manager");
+      }
 
     }
   }
   // Get delivery Man when Profile page is loaded
-  getDeliveryMan(id : any) : Observable<DeliveryMan>{
-    const url =  this.apiURL+"/DeliveryMen/" + id;
-    if(!!window.navigator.onLine){
+  getDeliveryMan(id: any): Observable<DeliveryMan> {
+    const url = this.apiURL + "/DeliveryMen/" + id;
+    if (!!window.navigator.onLine) {
       return this.httpClient.get<DeliveryMan>(url);
 
     }
-    else{
+    else {
       console.log("hors ligne");
-      
+
       return new Observable();
 
     }
     // TODO else fetch from IndexedDb
   }
+
+  getAdresse(id: any): Observable<Adresse> {
+    const url = this.apiURL + "/Adresses/" + id;
+    if (!!window.navigator.onLine) {
+      return this.httpClient.get<Adresse>(url);
+    }
+    else {
+      console.log("hors ligne");
+      return new Observable();
+      // TODO else fetch from IndexedDb
+    }
+
+  }
   // When the page is loaded
-  storeDeliveryManInDb(deliveryMan : DeliveryMan) {
+  storeDeliveryManInDb(deliveryMan: DeliveryMan) {
     // TODO check if syncDB contains one, so we have to overwrite it
     this.indexedDbService.writeData("deliveryman", deliveryMan);
+    // TODO Store also Address
   }
 
-  editStoredDeliveryManInDb(deliveryMan : DeliveryMan) {
+  editStoredDeliveryManInDb(deliveryMan: DeliveryMan) {
 
+  }
+
+
+  getCountryIso2Code(name: string) {
+    return this.httpClient.get<any[]>('assets/json/countries-iso.json');
   }
 
   // private initializeDataBase(): Promise<Dexie> {

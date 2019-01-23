@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>login</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-row align-items-center justify-content-center>
+    <ion-col col-sm-12 col-md-4 col-lg-4 col-xl-4>
+      <form [formGroup]="form" (ngSubmit)="login()">
+        <ion-list>
+          <ion-item>
+            <ion-label floating color="primary">Email</ion-label>
+            <ion-input [textMask]="emailMask" type="text" formControlName="email"></ion-input>
+          </ion-item>
+          <div class="validation-errors">
+            <ng-container *ngFor="let validation of validation_messages.email">
+              <div class="error-message" *ngIf="form.get('email').hasError(validation.type) && (form.get('email').dirty || form.get('email').touched)">
+                {{ validation.message }}
+              </div>
+            </ng-container>
+          </div>
+
+          <ion-item>
+            <ion-label floating color="primary">Password</ion-label>
+            <ion-input type="password" formControlName="password"></ion-input>
+          </ion-item>
+          <div class="validation-errors">
+            <ng-container *ngFor="let validation of validation_messages.password">
+              <div class="error-message" *ngIf="form.get('password').hasError(validation.type) && (form.get('password').dirty || form.get('password').touched)">
+                {{ validation.message }}
+              </div>
+            </ng-container>
+          </div>
+
+        </ion-list>
+        <button ion-button full type="submit" [disabled]="!form.valid">Submit</button>
+      </form>
+    </ion-col>
+  </ion-row>
+</ion-content>

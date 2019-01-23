@@ -21,10 +21,6 @@ self.addEventListener('activate', function (event) {
   event.waitUntil(activationCompleted);
 });
 
-// self.onfetch = function(event) {
-//   console.log("HTTP call intercepted - " + event.request.url);
-//   return event.respondWith(fetch(event.request.url));
-// }
 /**
  * Executed when the connection is Back
  */
@@ -106,16 +102,16 @@ function postSyncDeliveries() {
 }
 
 function postSyncDeliveryMan() {
-  // Open SyncDb where syncronized Data was added when connection was off
+  // Open SyncDb where syncronized Data were added when connection was off
   new Dexie('SyncDB').open().then(function (db) {
     console.log("Found database: " + db.name);
     console.log("Database version: " + db.verno);
-    // In this case we deal with deliveries, so we fetch all deliveries from SyncDb, 
+    // In this case we deal with deliveryMen, so we fetch all deliveryMen from SyncDb, 
     // exactly in SyncDelivery Table
     db.transaction('rw', db.table('syncDeliveryMan'), function () {
       // Normaly we have only one DeliveryMan 
       db.table('syncDeliveryMan').each((deliveryMan) => {
-        // For each Delivery we send POST request to the server
+        // For each DeliveryMan we send POST request to the server
         const url = "https://localhost:44317/api/DeliveryMen/" + deliveryMan['id'];
         fetch(url, {
           method: 'PUT',

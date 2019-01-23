@@ -13,6 +13,13 @@ import { IndexeddbserviceProvider } from '../providers/indexeddbservice/indexedd
 import { OnlineOfflineServiceProvider } from '../providers/online-offline-service/online-offline-service';
 import { TextMaskModule } from "angular2-text-mask";
 import { DeliveryManProvider } from '../providers/delivery-man/delivery-man';
+import { AuthenticationService } from '../providers/authentication.service';
+import { LoginPage } from '../pages/login/login';
+import { SignaturePage } from '../pages/signature/signature';
+import {DeliveriesPage} from '../pages/deliveries/deliveries';
+import { SignaturePadModule } from 'angular2-signaturepad';
+import { DeliveriesServiceProvider } from '../providers/deliveries-service/deliveries-service';
+import { DeliveryDetailsPage } from '../pages/delivery-details/delivery-details';
 
 @NgModule({
   declarations: [
@@ -20,13 +27,18 @@ import { DeliveryManProvider } from '../providers/delivery-man/delivery-man';
     AboutPage,
     ProfilePage,
     HomePage,
-    TabsPage
+    TabsPage,
+    LoginPage,
+    SignaturePage,
+    DeliveriesPage,
+    DeliveryDetailsPage
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     IonicModule.forRoot(MyApp),
     TextMaskModule,
+    SignaturePadModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -34,14 +46,20 @@ import { DeliveryManProvider } from '../providers/delivery-man/delivery-man';
     AboutPage,
     ProfilePage,
     HomePage,
-    TabsPage
+    TabsPage,
+    LoginPage,
+    SignaturePage,
+    DeliveriesPage,
+    DeliveryDetailsPage
   ],
   providers: [
     {provide: ErrorHandler, 
       useClass: IonicErrorHandler},
     IndexeddbserviceProvider,
     OnlineOfflineServiceProvider,
-    DeliveryManProvider
+    DeliveryManProvider,
+    AuthenticationService,
+    DeliveriesServiceProvider
   ]
 })
 export class AppModule {}

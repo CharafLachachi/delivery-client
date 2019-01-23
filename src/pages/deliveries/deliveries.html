@@ -1,0 +1,29 @@
+<!--
+  Generated template for the DeliveriesPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title> Deliveries </ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  
+  <button ion-button full (click)="onRefresh()"> Refresh Deliveries </button>
+
+  <ion-list>
+    <ion-item *ngFor="let delivery of deliveries" (click)=showDetails(delivery)>
+     Delivery ID : {{ delivery.id }} 
+     Delivery State : {{ delivery.state }}
+     <ion-badge color={{getColor(delivery.state)}}>{{getState(delivery.state)}}</ion-badge>
+    </ion-item>
+  </ion-list>
+
+  
+</ion-content>

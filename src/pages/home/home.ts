@@ -1,3 +1,4 @@
+import { ENV } from './../../environments/environment.dev';
 import { Component, OnInit } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { HttpClient, HttpResponse, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
@@ -7,7 +8,7 @@ import { ToastController } from 'ionic-angular';
 import { OnlineOfflineServiceProvider } from '../../providers/online-offline-service/online-offline-service';
 import { Observable } from 'rxjs';
 import 'rxjs/add/observable/throw';
-import { ENV } from '@app/env';
+import { DeliveriesPage } from '../deliveries/deliveries';
 
 
 
@@ -176,7 +177,10 @@ export class HomePage implements OnInit {
   }
   
 
-
+  navigate()
+  {
+    this.navCtrl.push(DeliveriesPage);
+  }
 
 }
 
